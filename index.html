@@ -59,19 +59,41 @@
 			$("#temp").html(faren);
 			$("#high").html(max_f);
 			$("#low").html(min_f);
-			$("#tempImg").attr('src',  "http://openweathermap.org/img/w/" + icon + ".png");
+			$("#tempImg").attr('src', "http://openweathermap.org/img/w/" + icon + ".png");
 
 
-			$('body').on('click', '#fahrenheit', function(json) {
+
+
+
+			if ($('#celcius').is(':checked')){
+				$("#temp").html(celcius);
+				$("#high").html(Math.round((max_f -32)*5/9));
+				$("#low").html(Math.round((min_f-32)*5/9));
+				console.log('c');
+			} else{
 				$("#temp").html(faren);
 				$("#high").html(max_f);
 				$("#low").html(min_f);
-			}),
-			$('body').on('click', '#celcius', function(json) {
-				$("#temp").html(celcius);
-			$("#high").html(Math.round((max_f -32)*5/9));
-			$("#low").html(Math.round((min_f-32)*5/9));
-			})
+				console.log('f');
+			}
+
+
+
+
+			// $('#fahrenheit').on('click', function() {
+			// 	$("#temp").html(faren);
+			// 	$("#high").html(max_f);
+			// 	$("#low").html(min_f);
+			// 	console.log('f')
+			// })
+			// $('#celcius').on('click', function() {
+			// 	$("#temp").html(celcius);
+			// 	$("#high").html(Math.round((max_f -32)*5/9));
+			// 	$("#low").html(Math.round((min_f-32)*5/9));
+			// 	console.log('c')
+			// })
+
+			
 		
 		// if ($('input[id ="celcius"]:checked').val()){
 		// 	$("#temp").html(celcius);
