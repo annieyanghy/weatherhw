@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Weather</title>
+<!-- Don't forget to link to jQuery -->
+<style>
+	input{
+		margin: 10px 0px;
+		padding: 5px;
+	}
+	#forecast{
+		/*This div should not appear until the weather is returned.*/
+	}
+	#forecast div{
+		width: 25vw;
+		border: 8px solid blue;
+		margin: 0 auto;
+		background: black;
+	}
+	img{
+		width:100%;
+	}
+</style>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+
+<script>
+	
+    function gettingJSON(){
+    	console.log("Hi")
+		let endpoint="https://api.openweathermap.org"
+		let city = ($('#location').val())
+		let YourWeatherAppID ="e85330edee1ec4438541d9a967929643"
+		let ann = "Ann Arbor"
+		let query = endpoint + '/data/2.5/weather?q=' + city + '&APPID='  +YourWeatherAppID;
+	
+    	// Use the OpenWeather API to return:
+    	//  the current temperature 
+    	//  the high temperature for the day
+    	//  the low temperature for the day
+    	//  the icon for the current weather.
+
+
+
+    	// You will need to update this query with the city, weather format (Celsius or Fahrenheit) and your OpenWeatherMap ID
+    	 
+    	// Right now I have it set to Chicago.  The default should be Ann Abor/Fahreheit.
+		
+		// let query = "http://api.openweathermap.org/data/2.5/weather?q=ann+arbor&APPID=" +YourWeatherAppID;
+        console.log("Query is :" + query)
+        $.getJSON(query,function(json){
+            console.log(JSON.stringify(json));
+			// $("#location").html(json.name);
+			let icon =  json.weather[0].icon
+			let faren = Math.round((json.main.temp - 273.15)*9/5 +32 );
+			let celcius = Math.round((faren - 32) * 5/9) ;
+			let max_f = Math.round((json.main.temp_max-273.15)*9/5 +32);
+			let min_f =  Math.round((json.main.temp_min-273.15)*9/5 +32);
+			$("#loc").html($('#location').val());
+			$("#temp").html(faren);
+			$("#high").html(max_f);
+			$("#low").html(min_f);
+			$("#tempImg").attr('src',  "http://openweathermap.org/img/w/" + icon + ".png");
+
+
+			$('body').on('click', '#fahrenheit', function(json) {
+				$("#temp").html(faren);
+				$("#high").html(max_f);
+				$("#low").html(min_f);
+			}),
+			$('body').on('click', '#celcius', function(json) {
+				$("#temp").html(celcius);
+			$("#high").html(Math.round((max_f -32)*5/9));
+			$("#low").html(Math.round((min_f-32)*5/9));
+			})
+		
+		// if ($('input[id ="celcius"]:checked').val()){
+		// 	$("#temp").html(celcius);
+		// 	$("#high").html(Math.round((max_f -32)*5/9));
+		// 	$("#low").html(Math.round((min_f-32)*5/9));
+		// 	console.log("c");
+		// }
+		// if ($('input[id ="fahrenheit"]:checked')){
+		// 	$("#temp").html(faren);
+		// 	$("#high").html(max_f);
+		// 	$("#low").html(min_f);
+		// 	console.log("f")
+		// }
+	
+	}
+
+			)
+
+    }
+    </script>
+</head>
+<body>
+	<!-- DO NOT CHANGE ANY CODE IN THE BODY OF THIS FILE. -->
+	<label for ="location">City:</label><input type = "text" id = "location" value = "Ann Arbor"><br>
+	<input type = "radio" name = "temp" value = "imperial" id = "fahrenheit" > <label for = "fahrenheit">Fahrenheit</label><br>
+	<input type = "radio" name = "temp" value = "metric" id = "celcius"> <label for = "celcius">Celcius</label><br>
+
+	<button id = "getIt" onclick = " gettingJSON()">Get Weather</button>
+
+
+	<div id = "forecast">
+		<div>
+		<img id = "tempImg" src="" alt = "" title = "">
+		</div>
+		<p>The temperature in <span id = "loc"></span> is currently <span id = "temp"></span>.</p>
+		<p>The high today will be <span id = "high"></span> and the low will be <span id = "low"></span>.</p>
+		
+	</div>
+</body>
+</html>
